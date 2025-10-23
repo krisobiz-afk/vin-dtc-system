@@ -1,5 +1,5 @@
 services:
-  # === BACKEND (FastAPI) ===
+  # === BACKEND (FastAPI API) ===
   - type: web
     name: vin-dtc-backend
     env: python
@@ -25,5 +25,3 @@ services:
         value: 20.0.0
     plan: free
     autoDeploy: true
-    region: frankfurt
-
