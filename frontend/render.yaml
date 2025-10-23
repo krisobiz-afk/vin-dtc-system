@@ -1,0 +1,7 @@
+services:
+  - type: static
+    name: vin-dtc-frontend
+    env: static
+    staticPublishPath: .
+    buildCommand: ""
+    plan: free

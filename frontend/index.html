@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VIN / DTC Архив Ford Garage</title>
+
+  <!-- Tailwind CSS (CDN): осигурява бързо и чисто оформление -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- jQuery (CDN): използваме за AJAX заявки и DOM манипулации -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Нашият JavaScript код, който обработва формите и таблиците -->
+  <script src="./main.js" defer></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- Контейнер за формата за качване -->
+  <div class="max-w-3xl mx-auto mb-10 bg-white p-6 rounded-xl shadow-md space-y-6">
+    <!-- Заглавие -->
+    <div class="max-w-3xl mx-auto mb-10">
+    <!-- Лого -->
+    <div class="flex justify-center mb-4">
+      <img src="/logo.png" alt="Моето Лого" class="h-16 object-contain" />
+    </div>
+    <h1 class="text-2xl font-bold text-center">VIN / DTC Архив Ford Garage</h1>
+
+    <!-- Форма за качване на два файла + метаданни -->
+    <form id="upload-form" class="space-y-4">
+      <!-- Конфигурационен файл (.uuw или .txt) -->
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          Конфигурационен файл (.uuw или .txt)
+        </label>
+        <input
+          type="file"
+          id="modules_file"
+          accept=".uuw,.txt"
+          class="w-full border p-2 rounded"
+          required
+        />
+      </div>
+
+      <!-- Файл с DTC грешки (.txt) – вече незадължително -->
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          Файл с грешки (.txt)
+        </label>
+        <input
+          type="file"
+          id="dtc_file"
+          accept=".txt"
+          class="w-full border p-2 rounded"
+        />
+      </div>
+
+      <!-- Модел на автомобила (label) -->
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          Модел на кола
+        </label>
+        <input
+          type="text"
+          id="label"
+          class="w-full border p-2 rounded"
+        />
+      </div>
+
+      <!-- Коментар -->
+      <div>
+        <label class="block text-sm font-medium mb-1">
+          Коментар
+        </label>
+        <textarea
+          id="comment"
+          class="w-full border p-2 rounded"
+          rows="1"
+        ></textarea>
+      </div>
+
+      <!-- Бутон за изпращане -->
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+      >
+        Качи
+      </button>
+
+      <!-- Съобщение за статус на качването -->
+      <p id="upload-status" class="text-center text-sm text-gray-700 mt-2"></p>
+    </form>
+  </div>
+
+  <!-- Контейнер за таблицата с всички записи -->
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-xl font-bold mb-4 text-center">Архивирани автомобили</h2>
+  <!-- Форма за търсене -->
+  <div class="max-w-6xl mx-auto mb-6 flex gap-2">
+    <input id="search-vin" type="text" placeholder="Търси по VIN" class="flex-1 border p-1 rounded"/>
+    <input id="search-label" type="text" placeholder="Търси по име" class="flex-1 border p-1 rounded"/>
+    <input id="search-dtc" type="text" placeholder="Търси по DTC" class="flex-1 border p-1 rounded"/>
+    <button id="search-btn" class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">Търси</button>
+    <button id="clear-btn" class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600">Изчисти</button>
+  </div>
+    <table
+      id="vehicles-table"
+      class="min-w-full table-auto border border-gray-300 bg-white rounded-lg overflow-hidden"
+    >
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 border">VIN</th>
+          <th class="px-4 py-2 border">Име</th>
+          <th class="px-4 py-2 border">Коментар</th>
+          <th class="px-4 py-2 border">Действия</th>
+        </tr>
+      </thead>
+      <tbody></tbody> <!-- Ще се попълни динамично с main.js -->
+    </table>
+
+    <!-- Панел за визуализация на детайли -->
+    <div id="details" class="mt-8 bg-gray-50 p-4 border rounded hidden">
+      <h3 class="text-lg font-semibold mb-2">
+        Детайли за VIN: <span id="details-vin"></span>
+      </h3>
+      <div>
+        <h4 class="font-bold">Модули:</h4>
+        <ul id="modules-list" class="list-disc list-inside"></ul>
+      </div>
+      <div class="mt-4">
+        <h4 class="font-bold">Грешки:</h4>
+        <ul id="errors-list" class="list-disc list-inside"></ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
